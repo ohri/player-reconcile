@@ -1,0 +1,32 @@
+# Environment files - NEVER COMMIT CREDENTIALS
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Generated output files
+player_reconcile_*.sql
+player_reconcile_*.log
+errors_*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak

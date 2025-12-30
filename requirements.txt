@@ -1,0 +1,17 @@
+# Player Reconciliation Script Dependencies
+
+# Data manipulation
+pandas>=2.0.0
+
+# HTTP requests for fetching NFLVerse data
+requests>=2.31.0
+
+# YAML configuration parsing
+PyYAML>=6.0
+
+# Oracle database connectivity
+cx_Oracle>=8.3.0
+# Note: cx_Oracle requires Oracle Instant Client to be installed
+# Download from: https://www.oracle.com/database/technologies/instant-client/downloads.html
+# For Python 3.12+, you may need to use python-oracledb instead:
+# python-oracledb>=1.4.0

@@ -1,0 +1,129 @@
+# Player Reconciliation Configuration
+
+# Oracle Database Connection (via environment variables)
+# Set these in your environment:
+# - ORACLE_USER
+# - ORACLE_PASSWORD
+# - ORACLE_HOST
+# - ORACLE_PORT (default: 1521)
+# - ORACLE_SERVICE
+
+database:
+  schema: NETFL
+
+# NFL Team Mappings
+# Maps NFLVerse team abbreviations to database TBLREALTEAMS.OID
+# OID 32 = Free Agent / No Team
+teams:
+  ARI: 1
+  ATL: 2
+  BAL: 3
+  BUF: 4
+  CAR: 5
+  CHI: 6
+  CIN: 7
+  CLE: 8
+  DAL: 9
+  DEN: 10
+  DET: 11
+  GB: 12
+  HOU: 13
+  IND: 14
+  JAX: 15
+  KC: 16
+  LA: 17      # Los Angeles Rams
+  LAC: 18     # Los Angeles Chargers
+  LV: 19      # Las Vegas Raiders
+  MIA: 20
+  MIN: 21
+  NE: 22
+  NO: 23
+  NYG: 24
+  NYJ: 25
+  PHI: 26
+  PIT: 27
+  SF: 28
+  SEA: 29
+  TB: 30
+  TEN: 31
+  WAS: 32
+  FA: 33      # Free Agent
+
+# Position Mappings
+# Maps NFLVerse position codes to database TBLPOSITIONS.OID
+positions:
+  QB: 1
+  RB: 2
+  FB: 3
+  WR: 4
+  TE: 5
+  OT: 6
+  OG: 7
+  G: 7        # Guard (same as OG)
+  C: 8
+  OL: 9       # Generic offensive line
+  DE: 10
+  DT: 11
+  NT: 12
+  DL: 13      # Generic defensive line
+  LB: 14
+  MLB: 15
+  OLB: 16
+  ILB: 17
+  CB: 18
+  S: 19
+  FS: 20
+  SS: 21
+  DB: 22      # Generic defensive back
+  K: 23
+  P: 24
+  LS: 25
+  SPEC: 26    # Special teams
+
+# Status handling configuration
+status_rules:
+  # Statuses that should NOT trigger team changes
+  # (keep latest_team from CSV even with these statuses)
+  keep_team_for_status:
+    - ACT      # Active
+    - DEV      # Practice Squad (keep team association)
+    - RES      # Reserve (keep team association)
+    - CUT      # Recently cut (keep last team)
+    - UFA      # Unsigned Free Agent
+
+  # Statuses that should clear team (set to Free Agent)
+  # Add status codes here if needed
+  clear_team_for_status: []
+
+# Reconciliation rules
+reconciliation:
+  # How often to reconcile different fields
+  weekly:
+    - realteamid  # Current team
+
+  annual:        # Only with --full-reconcile flag
+    - positionid # Position changes
+
+  # Minimum fields required for new player INSERT
+  required_fields_for_insert:
+    - gsis_id
+    - last_name
+    - first_name
+    - position
+    - latest_team
+
+# Output settings
+output:
+  sql_file_prefix: player_reconcile
+  log_file_prefix: player_reconcile
+  timestamp_format: "%Y%m%d_%H%M%S"
+
+# NFLVerse data source
+nflverse:
+  url: https://github.com/nflverse/nflverse-data/releases/download/players/players.csv
+  cache_hours: 0  # Don't cache, always fetch fresh
+
+# Performance settings
+performance:
+  batch_size: 500  # Number of records per SQL batch (for future use)
+  use_pandas: true
