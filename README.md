@@ -20,9 +20,9 @@ Efficient Python script to reconcile your Oracle player database with NFLVerse p
 ## Prerequisites
 
 1. **Python 3.8+**
-2. **Oracle Instant Client** (required for cx_Oracle)
-   - Download from: https://www.oracle.com/database/technologies/instant-client/downloads.html
-   - Install and add to PATH
+2. **Oracle Database Access**
+   - python-oracledb works in "thin" mode without Oracle Instant Client
+   - Optional: Oracle Instant Client for "thick" mode (advanced features)
 3. **Network Access**:
    - VPN connection to database server (if remote)
    - Internet access to fetch NFLVerse data
@@ -50,12 +50,7 @@ source venv/bin/activate  # Linux/Mac
 pip install -r requirements.txt
 ```
 
-**Note**: If you're using Python 3.12+ and cx_Oracle doesn't work, try:
-```bash
-pip uninstall cx_Oracle
-pip install python-oracledb
-```
-Then update the import in `player_reconcile.py` from `import cx_Oracle` to `import oracledb as cx_Oracle`.
+**Note**: This project uses `python-oracledb`, the modern replacement for `cx_Oracle`. It works without Oracle Instant Client in most cases.
 
 ### 4. Configure Environment Variables
 
@@ -271,10 +266,10 @@ VALUES ('John', 'Doe', '00-0039999', 9, 1, 0, 15);
 - Make sure you've loaded the .env file
 - Verify all required variables are set: `echo %ORACLE_USER%` (Windows) or `echo $ORACLE_USER` (Linux/Mac)
 
-**Error**: `cx_Oracle.DatabaseError: DPI-1047: Cannot locate a 64-bit Oracle Client library`
-- Install Oracle Instant Client
-- Add Instant Client to PATH
-- Restart terminal/command prompt
+**Error**: Database connection errors
+- python-oracledb uses "thin" mode by default (no client library needed)
+- If you need thick mode features, install Oracle Instant Client
+- Check ORACLE_HOST, ORACLE_PORT, and ORACLE_SERVICE are correct
 
 **Error**: `ORA-12170: TNS:Connect timeout occurred`
 - Verify VPN connection is active

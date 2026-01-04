@@ -10,8 +10,7 @@ requests>=2.31.0
 PyYAML>=6.0
 
 # Oracle database connectivity
-cx_Oracle>=8.3.0
-# Note: cx_Oracle requires Oracle Instant Client to be installed
-# Download from: https://www.oracle.com/database/technologies/instant-client/downloads.html
-# For Python 3.12+, you may need to use python-oracledb instead:
-# python-oracledb>=1.4.0
+oracledb>=2.0.0
+# Note: oracledb (python-oracledb) is the modern replacement for cx_Oracle
+# It works in "thin" mode without requiring Oracle Instant Client
+# For thick mode (Oracle Client features), see: https://python-oracledb.readthedocs.io/

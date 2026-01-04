@@ -117,7 +117,8 @@ Generated files use timestamp format `YYYYMMDD_HHMMSS`:
 ### Oracle Connection
 - Uses environment variables (ORACLE_USER, ORACLE_PASSWORD, ORACLE_HOST, ORACLE_PORT, ORACLE_SERVICE)
 - Connection is opened once, query executed, then closed immediately
-- For Python 3.12+, may need `python-oracledb` instead of `cx_Oracle`
+- Uses `python-oracledb` library (modern replacement for cx_Oracle)
+- Works in "thin" mode without requiring Oracle Instant Client
 
 ### Team/Position Mapping Maintenance
 When adding new teams or positions:
@@ -146,7 +147,7 @@ When SQL script is executed, these triggers fire automatically:
 
 **"Cannot insert player - unknown position 'XXX'"**: NFLVerse has a position code not in config.yaml. Add mapping under `positions:` section after verifying OID in TBLPOSITIONS.
 
-**cx_Oracle connection errors**: Ensure Oracle Instant Client is installed and in PATH. For Python 3.12+, switch to python-oracledb library.
+**Database connection errors**: python-oracledb runs in "thin" mode by default (no Oracle Instant Client required). Check that environment variables are correctly set and database is accessible.
 
 ## NFLVerse Data Source
 

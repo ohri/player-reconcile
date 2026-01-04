@@ -21,7 +21,7 @@ from typing import Dict, List, Tuple, Set
 import pandas as pd
 import requests
 import yaml
-import cx_Oracle
+import oracledb
 
 
 class PlayerReconciler:
@@ -98,10 +98,10 @@ class PlayerReconciler:
         port = os.getenv('ORACLE_PORT', '1521')
         service = os.getenv('ORACLE_SERVICE')
 
-        dsn = cx_Oracle.makedsn(host, port, service_name=service)
+        dsn = oracledb.makedsn(host, port, service_name=service)
 
         self.logger.info(f"Connecting to Oracle: {user}@{host}:{port}/{service}")
-        return cx_Oracle.connect(user, password, dsn)
+        return oracledb.connect(user, password, dsn)
 
     def fetch_nflverse_data(self) -> pd.DataFrame:
         """Fetch fresh players.csv from NFLVerse."""
